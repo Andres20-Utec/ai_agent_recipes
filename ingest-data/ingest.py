@@ -11,6 +11,7 @@ load_dotenv()
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
+
 def ingestar_data_url():
     """
     Es necesario tener un mejor plan, ya que el plan gratuito de Pinecone solo permite 1 crawl por minuto
@@ -32,10 +33,14 @@ def ingestar_data_url():
                 contenido = retirar_contenido_innecesario(doc.page_content)
                 doc.page_content = contenido
                 # Guardar contenido en un archivo
-                with open(f"../data_web_txt/{nombre_plato}.txt", "w", encoding="utf-8") as file:
+                with open(
+                    f"../data_web_txt/{nombre_plato}.txt", "w", encoding="utf-8"
+                ) as file:
                     file.write(contenido)
             print(f"Cargando {url} al vector store de Pinecone")
-            PineconeVectorStore.from_documents(docs, embeddings, index_name=os.getenv("INDEX_NAME"))
+            PineconeVectorStore.from_documents(
+                docs, embeddings, index_name=os.getenv("INDEX_NAME")
+            )
             print("Cargado con éxito")
             print("-" * 80)
             # Agregamos un sleep de 7 segundos para no exceder el límite de crawl

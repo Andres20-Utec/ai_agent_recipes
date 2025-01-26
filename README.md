@@ -19,6 +19,7 @@ Para obtener el dataset de recetas peruanas se ha utilizado **Firecrawl** que es
   - External Context
   - Role-playing Prompts
   - Memory
+  - Tools: Search on web
 - RAG
 - Firecrawl
 - Python

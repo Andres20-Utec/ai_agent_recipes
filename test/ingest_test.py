@@ -9,6 +9,7 @@ from langchain_pinecone import PineconeVectorStore
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
+
 def retirar_contenido_innecesario(contenido):
     if "###" in contenido:
         index_hashtag = contenido.find("###")
@@ -19,12 +20,11 @@ def retirar_contenido_innecesario(contenido):
         contenido = contenido[:index_facebook]
     return contenido
 
+
 def firecrawl_test():
     url = "https://acomer.pe/vinagreta-de-polleria/"
     scrape_result = FireCrawlLoader(
-        api_key=os.getenv("FIRECRAWL_API_KEY"),
-        url=url,
-        mode="scrape"
+        api_key=os.getenv("FIRECRAWL_API_KEY"), url=url, mode="scrape"
     )
     # Obteniendo "Document object"
     docs = scrape_result.load()
@@ -37,8 +37,11 @@ def firecrawl_test():
         file.write(contenido)
 
     print(f"Agregando {len(docs)} documentos a Pinecone index")
-    PineconeVectorStore.from_documents(docs, embeddings, index_name="recetas-peruanas-index")
+    PineconeVectorStore.from_documents(
+        docs, embeddings, index_name="recetas-peruanas-index"
+    )
     print(f"Cargando {url} al vector store de Pinecone")
+
 
 if __name__ == "__main__":
     firecrawl_test()
